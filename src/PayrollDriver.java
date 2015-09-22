@@ -14,7 +14,7 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 
 public class PayrollDriver {
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		PayrollFrame myFrame = new PayrollFrame();
 		
 		//Sets the window to open in the middle of the screen
@@ -30,5 +30,7 @@ public class PayrollDriver {
 		myFrame.setSize(width, height);
 		myFrame.setVisible(true);
 		myFrame.setTitle("Payroll");
+		
+		
 	}
 }

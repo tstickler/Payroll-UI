@@ -4,7 +4,7 @@ public class PayrollCompute {
 	private static final double overtimeRate = 1.5;
 	private static final double fedTax = .22;
 	private static final double employeeHealthPremium = 28.75;
-	private static final double dependantHealthPremium = 17.35;
+	private static final double dependentHealthPremium = 17.35;
 	private static final double ssTax = .085;
 	
 	public static double computeGrossPay(int hours, double payrate) {
@@ -25,16 +25,42 @@ public class PayrollCompute {
 	}
 	
 	public static double computeFedTax(double pay) {
+		double amountTaxed;
+		
 		// Federal tax is applies only if pay is greater than 300 and only to pay above 300
+		if (pay > 300.00) {
 		double payAbove300 = pay - 300.00;
-		double amountTaxed = payAbove300 * (fedTax);
+		amountTaxed = payAbove300 * (fedTax);
+		} else {
+			amountTaxed = 0.00;
+		}
 		
 		return amountTaxed;
 	}
 	
 	public static double computeSSTax(double pay) {
-		double amountTaxed = 0;
+		double amountTaxed = pay * ssTax;
+		
+		if (amountTaxed > 55.00) {
+			amountTaxed = 55.00;
+		}
 		
 		return amountTaxed;
+	}
+	
+	public static double computeHealthInsurance(int dependents){
+		double amountDeducted = employeeHealthPremium;
+		
+		if(dependents > 0){
+			amountDeducted += dependentHealthPremium * dependents;
+		}
+		
+		return amountDeducted;
+	}
+	
+	public static double computeNetPay(double grossPay, double fed, double SS, double healthInsurance) {
+		double netPay = grossPay - fed - SS - healthInsurance;
+		
+		return netPay;
 	}
 }
