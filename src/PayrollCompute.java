@@ -31,4 +31,10 @@ public class PayrollCompute {
 		
 		return amountTaxed;
 	}
+	
+	public static double computeSSTax(double pay) {
+		double amountTaxed = 0;
+		
+		return amountTaxed;
+	}
 }
