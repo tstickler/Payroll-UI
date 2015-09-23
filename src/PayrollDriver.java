@@ -32,7 +32,5 @@ public class PayrollDriver {
 		myFrame.setSize(width, height);
 		myFrame.setVisible(true);
 		myFrame.setTitle("Payroll");
-		
-		
 	}
 }

@@ -1,6 +1,8 @@
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PayrollFrame extends JFrame {
 	private JPanel mainPanel = new JPanel();
@@ -16,7 +18,7 @@ public class PayrollFrame extends JFrame {
 	private JTextField hoursField = new JTextField();
 	private JTextField payrateField = new JTextField();
 	private JTextField dependentsField = new JTextField();
-	private String[] healthPlanOptions = {"","Yes", "No"};
+	private String[] healthPlanOptions = {"", "Yes", "No"};
 	private JComboBox<String> healthPlanBox = new JComboBox<String>(healthPlanOptions);
 
 	// Output labels and fields
@@ -35,6 +37,11 @@ public class PayrollFrame extends JFrame {
 	private JTextField netPayField = new JTextField();
 	
 	// Buttons
+	private buttonHandler buttonHandler = new buttonHandler();
+	private JPanel buttonPanel = new JPanel(new FlowLayout());
+	private JButton computePayButton = new JButton("Compute Pay");
+	private JButton clearButton = new JButton("Clear");
+	private JButton exitButton = new JButton("Exit");
 	
 	public PayrollFrame(){
 		//Allows using different font size/style for messages
@@ -76,7 +83,7 @@ public class PayrollFrame extends JFrame {
 		
 		/* Adding output components to the outputPanel */
 		
-		// Makes the output fields ineditable
+		// Makes the output fields uneditable
 		nameOutputField.setEditable(false);
 		grossPayField.setEditable(false);
 		fedTaxField.setEditable(false);
@@ -118,6 +125,15 @@ public class PayrollFrame extends JFrame {
 		mainPanel.add(outputPanel);
 		
 		
+		/* Adding buttons to the buttonPanel */
+		buttonPanel.add(computePayButton);
+		computePayButton.addActionListener(buttonHandler);
+		buttonPanel.add(clearButton);
+		clearButton.addActionListener(buttonHandler);
+		buttonPanel.add(exitButton);
+		exitButton.addActionListener(buttonHandler);
+		mainPanel.add(buttonPanel);
+		
 		// Adds the main panel to the frame
 		this.add(mainPanel);
 		
@@ -138,4 +154,89 @@ public class PayrollFrame extends JFrame {
 		myPanel.add(item, cons);
 			
 	} // End addItem function
+	
+	private class buttonHandler implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == computePayButton){
+				// Sets the name output to the name that was input
+				String name = nameField.getText();
+				nameOutputField.setText(name);
+				
+				// Reads hours from input. If empty or invalid input, hours = 0
+				int hours;
+				if(hoursField.getText() == "") {
+					hours = 0;
+				} else {
+					try{
+						hours = Integer.parseInt(hoursField.getText());
+					} catch (NumberFormatException exception) {
+						hours = 0;
+					}
+				}
+				
+				// Reads payrate from input. If empty or invalid input, payrate = 0
+				double payrate;
+				if(payrateField.getText() == "") {
+					payrate = 0.00;
+				} else {
+					try{
+						payrate = Double.parseDouble(payrateField.getText());
+					} catch (NumberFormatException exception) {
+						payrate = 0.00;
+					}
+				}
+				
+				// Reads dependents from input. If empty or invalid input, dependents = 0
+				int dependents;
+				if(dependentsField.getText() == "") {
+					dependents = 0;
+				} else {
+					try{
+						dependents = Integer.parseInt(dependentsField.getText());
+					} catch (NumberFormatException exception) {
+						dependents = 0;
+					}
+				}
+				
+				// Reads the combobox answer. If answer = yes, healthPlan is true otherwise healthPlan is false
+				boolean healthPlan;
+				if (healthPlanBox.getSelectedItem() == "Yes") {
+					healthPlan = true;
+				} else {
+					healthPlan = false;
+				}
+				
+				// Sends hours and payrate to compute the gross pay for the employee
+				double grossPay = PayrollCompute.computeGrossPay(hours, payrate);
+				grossPayField.setText(Double.toString(grossPay));
+				
+				// Sends gross pay to compute federal tax owed(if any)
+				double fedTax = PayrollCompute.computeFedTax(grossPay);
+				fedTaxField.setText(Double.toString(fedTax));
+				
+				// Sends dependents to compute health insurance if healthPlan is true, otherwise the premium is 0
+				double healthPremium;
+				if(healthPlan == true) {
+					 healthPremium = PayrollCompute.computeHealthInsurance(dependents);
+				} else {
+					healthPremium = 0.00;
+				}
+				healthPremiumField.setText(Double.toString(healthPremium));
+				
+				// Sends gross pay to compute social security tax owed
+				double fica = PayrollCompute.computeSSTax(grossPay);
+				ficaField.setText(Double.toString(fica));
+				
+				// Sends gross pay, federal tax, health premium, and social security tax to calculate employee's net pay
+				double netPay = PayrollCompute.computeNetPay(grossPay, fedTax, fica, healthPremium);
+				netPayField.setText(Double.toString(netPay));
+				
+			} else if (e.getSource() == clearButton){
+				
+			} else if (e.getSource() == exitButton){
+				
+			}
+			
+		}
+	}
 }
