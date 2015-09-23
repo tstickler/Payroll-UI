@@ -9,7 +9,9 @@
 * This file name:    PayrollDriver.java
 */
 
-import javax.swing.JFrame;
+import javax.swing.*;
+
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 
