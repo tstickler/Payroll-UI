@@ -33,26 +33,50 @@ public class PayrollFrame extends JFrame {
 	private JTextField healthPremiumField = new JTextField();
 	private JTextField ficaField = new JTextField();
 	private JTextField netPayField = new JTextField();
+	
 	// Buttons
 	
 	public PayrollFrame(){
+		//Allows using different font size/style for messages
+		Font titleFont = new Font("", Font.BOLD, 42);
+		Font labelFont = new Font("", Font.PLAIN, 18);
+		
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		
-		// Adding input components to the inputPanel
+		/* Adding input components to the inputPanel */
+		
+		// Adds name label and input field
+		nameLabel.setFont(labelFont);
 		addItem(inputPanel, nameLabel, 0, 0, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(inputPanel, nameField, 1, 0, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		
+		// Adds hours label and input field
+		hoursLabel.setFont(labelFont);
 		addItem(inputPanel, hoursLabel, 0, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(inputPanel, hoursField, 1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		
+		// Adds pay rate label and input field
+		payrateLabel.setFont(labelFont);
 		addItem(inputPanel, payrateLabel, 0, 2, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(inputPanel, payrateField, 1, 2, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		
+		// Adds dependents label and input field
+		dependentsLabel.setFont(labelFont);
 		addItem(inputPanel, dependentsLabel, 0, 3, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(inputPanel, dependentsField, 1, 3, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		
+		// Adds health label and combo box
+		healthplanLabel.setFont(labelFont);
 		addItem(inputPanel, healthplanLabel, 0, 4, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(inputPanel, healthPlanBox, 1, 4, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
 		
+		// Adds the input panel to the main panel
 		mainPanel.add(inputPanel);
 		
-		// Adding output components to the outputPanel
+		
+		/* Adding output components to the outputPanel */
+		
+		// Makes the output fields ineditable
 		nameOutputField.setEditable(false);
 		grossPayField.setEditable(false);
 		fedTaxField.setEditable(false);
@@ -60,21 +84,41 @@ public class PayrollFrame extends JFrame {
 		ficaField.setEditable(false);
 		netPayField.setEditable(false);
 		
+		// Adds name output label and field
+		nameOutputLabel.setFont(labelFont);
 		addItem(outputPanel, nameOutputLabel, 0, 0, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(outputPanel, nameOutputField, 1, 0, 1, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL);
+	
+		// Adds gross pay output label and field
+		grossPayLabel.setFont(labelFont);
 		addItem(outputPanel, grossPayLabel, 0, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(outputPanel, grossPayField, 1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		
+		// Adds federal tax output label and field
+		fedTaxLabel.setFont(labelFont);
 		addItem(outputPanel, fedTaxLabel, 0, 2, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(outputPanel, fedTaxField, 1, 2, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		
+		// Adds health premium output label and field
+		healthPremiumLabel.setFont(labelFont);
 		addItem(outputPanel, healthPremiumLabel, 0, 3, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(outputPanel, healthPremiumField, 1, 3, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		
+		// Adds social security output label and field
+		ficaLabel.setFont(labelFont);
 		addItem(outputPanel, ficaLabel, 0, 4, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(outputPanel, ficaField, 1, 4, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		
+		// Adds net pay output label and field
+		netPayLabel.setFont(labelFont);
 		addItem(outputPanel, netPayLabel, 0, 5, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
 		addItem(outputPanel, netPayField, 1, 5, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
 		
+		// Adds the output panel to the main panel
 		mainPanel.add(outputPanel);
 		
+		
+		// Adds the main panel to the frame
 		this.add(mainPanel);
 		
 	} // End PayrollFrame constructor
