@@ -22,7 +22,7 @@ public class PayrollDriver {
 		//Sets the window to open in the middle of the screen
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dm = tk.getScreenSize();
-		int width = 750;
+		int width = 650;
 		int height = 1000;
 		int xPos = (dm.width / 2) - width/2;
 		int yPos = (dm.height / 2) - height/2;

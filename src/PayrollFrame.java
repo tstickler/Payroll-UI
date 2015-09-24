@@ -1,14 +1,28 @@
-import javax.swing.*;
+/* 
+* Programmer's name: Tyler Stickler
+* Email address:     Stickler@csu.fullerton.edu
+* Course:            CPSC223J
+* Assignment number: 2
+* Due date:          Sept 28, 2015
+* Title:             Payroll
+* Purpose:           Compute the payroll for the given indivdual
+* This file name:    PayrollFrame.java
+*/
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 public class PayrollFrame extends JFrame {
 	private JPanel mainPanel = new JPanel();
+	DecimalFormat df = new DecimalFormat("0.00");
 	
 	// Input labels and fields
 	private JPanel inputPanel = new JPanel(new GridBagLayout());
+	private JLabel titleLabel = new JLabel("Payroll");
+	private JLabel programmersName = new JLabel("By Tyler Stickler");
 	private JLabel nameLabel = new JLabel("Name:");
 	private JLabel hoursLabel = new JLabel("Hours:");
 	private JLabel payrateLabel = new JLabel("Payrate:");
@@ -52,30 +66,38 @@ public class PayrollFrame extends JFrame {
 		
 		/* Adding input components to the inputPanel */
 		
+		// Adds the title
+		titleLabel.setFont(titleFont);
+		addItem(inputPanel, titleLabel, 0, 0, 2, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE);
+		
+		// Adds the progammer's name
+		nameLabel.setFont(labelFont);
+		addItem(inputPanel, programmersName, 0, 1, 2, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE);
+
 		// Adds name label and input field
 		nameLabel.setFont(labelFont);
-		addItem(inputPanel, nameLabel, 0, 0, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
-		addItem(inputPanel, nameField, 1, 0, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		addItem(inputPanel, nameLabel, 0, 2, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+		addItem(inputPanel, nameField, 1, 2, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
 		
 		// Adds hours label and input field
 		hoursLabel.setFont(labelFont);
-		addItem(inputPanel, hoursLabel, 0, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
-		addItem(inputPanel, hoursField, 1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		addItem(inputPanel, hoursLabel, 0, 3, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+		addItem(inputPanel, hoursField, 1, 3, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
 		
 		// Adds pay rate label and input field
 		payrateLabel.setFont(labelFont);
-		addItem(inputPanel, payrateLabel, 0, 2, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
-		addItem(inputPanel, payrateField, 1, 2, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		addItem(inputPanel, payrateLabel, 0, 4, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+		addItem(inputPanel, payrateField, 1, 4, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
 		
 		// Adds dependents label and input field
 		dependentsLabel.setFont(labelFont);
-		addItem(inputPanel, dependentsLabel, 0, 3, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
-		addItem(inputPanel, dependentsField, 1, 3, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		addItem(inputPanel, dependentsLabel, 0, 5, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+		addItem(inputPanel, dependentsField, 1, 5, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
 		
 		// Adds health label and combo box
 		healthplanLabel.setFont(labelFont);
-		addItem(inputPanel, healthplanLabel, 0, 4, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
-		addItem(inputPanel, healthPlanBox, 1, 4, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
+		addItem(inputPanel, healthplanLabel, 0, 6, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE);
+		addItem(inputPanel, healthPlanBox, 1, 6, 1, 1, GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL);
 		
 		// Adds the input panel to the main panel
 		mainPanel.add(inputPanel);
@@ -126,6 +148,7 @@ public class PayrollFrame extends JFrame {
 		
 		
 		/* Adding buttons to the buttonPanel */
+		
 		buttonPanel.add(computePayButton);
 		computePayButton.addActionListener(buttonHandler);
 		buttonPanel.add(clearButton);
@@ -169,6 +192,12 @@ public class PayrollFrame extends JFrame {
 				} else {
 					try{
 						hours = Integer.parseInt(hoursField.getText());
+						if(hours < 0) {
+							hours = 0;
+						} 
+						if (hours > 80) {
+							hours = 80;
+						}
 					} catch (NumberFormatException exception) {
 						hours = 0;
 					}
@@ -181,6 +210,9 @@ public class PayrollFrame extends JFrame {
 				} else {
 					try{
 						payrate = Double.parseDouble(payrateField.getText());
+						if(payrate < 0) {
+							payrate = 0;
+						}
 					} catch (NumberFormatException exception) {
 						payrate = 0.00;
 					}
@@ -193,6 +225,12 @@ public class PayrollFrame extends JFrame {
 				} else {
 					try{
 						dependents = Integer.parseInt(dependentsField.getText());
+						if (dependents < 0) {
+							dependents = 0;
+						}
+						if (dependents > 10) {
+							dependents = 10;
+						}
 					} catch (NumberFormatException exception) {
 						dependents = 0;
 					}
@@ -208,11 +246,11 @@ public class PayrollFrame extends JFrame {
 				
 				// Sends hours and payrate to compute the gross pay for the employee
 				double grossPay = PayrollCompute.computeGrossPay(hours, payrate);
-				grossPayField.setText(Double.toString(grossPay));
+				grossPayField.setText("$" + df.format(grossPay));
 				
 				// Sends gross pay to compute federal tax owed(if any)
 				double fedTax = PayrollCompute.computeFedTax(grossPay);
-				fedTaxField.setText(Double.toString(fedTax));
+				fedTaxField.setText("$" + df.format(fedTax));
 				
 				// Sends dependents to compute health insurance if healthPlan is true, otherwise the premium is 0
 				double healthPremium;
@@ -221,22 +259,32 @@ public class PayrollFrame extends JFrame {
 				} else {
 					healthPremium = 0.00;
 				}
-				healthPremiumField.setText(Double.toString(healthPremium));
+				healthPremiumField.setText("$" + df.format(healthPremium));
 				
 				// Sends gross pay to compute social security tax owed
 				double fica = PayrollCompute.computeSSTax(grossPay);
-				ficaField.setText(Double.toString(fica));
+				ficaField.setText("$" + df.format(fica));
 				
 				// Sends gross pay, federal tax, health premium, and social security tax to calculate employee's net pay
 				double netPay = PayrollCompute.computeNetPay(grossPay, fedTax, fica, healthPremium);
-				netPayField.setText(Double.toString(netPay));
+				netPayField.setText("$" + df.format(netPay));
 				
 			} else if (e.getSource() == clearButton){
-				
+				// Sets all text fields to empty strings and the combo box to its first index, which is an empty string
+				nameField.setText("");
+				hoursField.setText("");
+				payrateField.setText("");
+				dependentsField.setText("");
+				healthPlanBox.setSelectedIndex(0);
+				nameOutputField.setText("");
+				grossPayField.setText("");
+				fedTaxField.setText("");
+				healthPremiumField.setText("");
+				ficaField.setText("");
+				netPayField.setText("");
 			} else if (e.getSource() == exitButton){
-				
-			}
-			
+				System.exit(0);
+			}	
 		}
-	}
-}
+	} // End buttonHandler function
+} // End PayrollFrame class

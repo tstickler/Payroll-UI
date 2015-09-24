@@ -1,3 +1,13 @@
+/* 
+* Programmer's name: Tyler Stickler
+* Email address:     Stickler@csu.fullerton.edu
+* Course:            CPSC223J
+* Assignment number: 2
+* Due date:          Sept 28, 2015
+* Title:             Payroll
+* Purpose:           Compute the payroll for the given indivdual
+* This file name:    PayrollCompute.java
+*/
 
 public class PayrollCompute {
 	private static final int maxStandardHours = 40;
