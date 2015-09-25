@@ -1,12 +1,12 @@
 /* 
-* Programmer's name: Tyler Stickler
-* Email address:     Stickler@csu.fullerton.edu
-* Course:            CPSC223J
-* Assignment number: 2
-* Due date:          Sept 28, 2015
-* Title:             Payroll
-* Purpose:           Compute the payroll for the given indivdual
-* This file name:    PayrollCompute.java
+ * Programmer's name: Tyler Stickler
+ * Email address:     Stickler@csu.fullerton.edu
+ * Course:            CPSC223J
+ * Assignment number: 2
+ * Due date:          Sept 28, 2015
+ * Title:             Payroll
+ * Purpose:           Compute the payroll for the given indivdual
+ * This file name:    PayrollCompute.java
 */
 
 public class PayrollCompute {
@@ -15,10 +15,10 @@ public class PayrollCompute {
 	private static final double fedTax = .22;
 	private static final double employeeHealthPremium = 28.75;
 	private static final double dependentHealthPremium = 17.35;
-	private static final double ssTax = .085;
+	private static final double ficaTax = .085;
 	
 	public static double computeGrossPay(int hours, double payrate) {
-		double pay;
+		double grossPay;
 		
 		// If the employee has more than 40 hours, increase their pay for hours > 40 by 50%
 		if(hours > maxStandardHours) {
@@ -26,12 +26,12 @@ public class PayrollCompute {
 			int overtimeHours = hours - 40;
 			
 			// Pay is computed by using original payrate for the first 40 hours plus overtime payrate for hours above 40
-			pay = (payrate * maxStandardHours) + (overtimeHours * payrate * overtimeRate);
+			grossPay = (payrate * maxStandardHours) + (payrate * overtimeHours * overtimeRate);
 		} else {
-			pay = payrate * hours;
+			grossPay = payrate * hours;
 		}
 		
-		return pay;
+		return grossPay;
 	}
 	
 	public static double computeFedTax(double pay) {
@@ -48,9 +48,10 @@ public class PayrollCompute {
 		return amountTaxed;
 	}
 	
-	public static double computeSSTax(double pay) {
-		double amountTaxed = pay * ssTax;
+	public static double computeFicaTax(double pay) {
+		double amountTaxed = pay * ficaTax;
 		
+		// Social Security tax is can be no larger than $55.00
 		if (amountTaxed > 55.00) {
 			amountTaxed = 55.00;
 		}
@@ -61,6 +62,7 @@ public class PayrollCompute {
 	public static double computeHealthInsurance(int dependents){
 		double amountDeducted = employeeHealthPremium;
 		
+		// Health insurance is 28.75 for the employee plus 17.35 for each dependent
 		if(dependents > 0){
 			amountDeducted += dependentHealthPremium * dependents;
 		}
@@ -69,6 +71,9 @@ public class PayrollCompute {
 	}
 	
 	public static double computeNetPay(double grossPay, double fed, double SS, double healthInsurance) {
+		// Net pay is calculated by taking gross pay and subraction federal tax, social security tax, and
+		// the cost of health insurance.
+		
 		double netPay = grossPay - fed - SS - healthInsurance;
 		
 		return netPay;

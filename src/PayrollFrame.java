@@ -1,25 +1,34 @@
 /* 
-* Programmer's name: Tyler Stickler
-* Email address:     Stickler@csu.fullerton.edu
-* Course:            CPSC223J
-* Assignment number: 2
-* Due date:          Sept 28, 2015
-* Title:             Payroll
-* Purpose:           Compute the payroll for the given indivdual
-* This file name:    PayrollFrame.java
+ * Programmer's name: Tyler Stickler
+ * Email address:     Stickler@csu.fullerton.edu
+ * Course:            CPSC223J
+ * Assignment number: 2
+ * Due date:          Sept 28, 2015
+ * Title:             Payroll
+ * Purpose:           Compute the payroll for the given indivdual
+ * This file name:    PayrollFrame.java
 */
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JButton;
+import javax.swing.BoxLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 public class PayrollFrame extends JFrame {
 	private JPanel mainPanel = new JPanel();
-	DecimalFormat df = new DecimalFormat("0.00");
 	
-	// Input labels and fields
+	// Declaration for input labels and fields
 	private JPanel inputPanel = new JPanel(new GridBagLayout());
 	private JLabel titleLabel = new JLabel("Payroll");
 	private JLabel programmersName = new JLabel("By Tyler Stickler");
@@ -35,7 +44,7 @@ public class PayrollFrame extends JFrame {
 	private String[] healthPlanOptions = {"", "Yes", "No"};
 	private JComboBox<String> healthPlanBox = new JComboBox<String>(healthPlanOptions);
 
-	// Output labels and fields
+	// Declaration for labels and fields
 	private JPanel outputPanel = new JPanel(new GridBagLayout());
 	private JLabel nameOutputLabel = new JLabel("Computed pay for:");
 	private JLabel grossPayLabel = new JLabel("Gross Pay:");
@@ -43,6 +52,7 @@ public class PayrollFrame extends JFrame {
 	private JLabel healthPremiumLabel = new JLabel("Health Premium:");
 	private JLabel ficaLabel = new JLabel("FICA:");
 	private JLabel netPayLabel = new JLabel("Net Pay:");
+	private DecimalFormat df = new DecimalFormat("0.00");
 	private JTextField nameOutputField = new JTextField();
 	private JTextField grossPayField = new JTextField();
 	private JTextField fedTaxField = new JTextField();
@@ -50,28 +60,30 @@ public class PayrollFrame extends JFrame {
 	private JTextField ficaField = new JTextField();
 	private JTextField netPayField = new JTextField();
 	
-	// Buttons
-	private buttonHandler buttonHandler = new buttonHandler();
+	// Declaration for buttons
 	private JPanel buttonPanel = new JPanel(new FlowLayout());
+	private buttonHandler buttonHandler = new buttonHandler();
 	private JButton computePayButton = new JButton("Compute Pay");
 	private JButton clearButton = new JButton("Clear");
 	private JButton exitButton = new JButton("Exit");
 	
 	public PayrollFrame(){
-		//Allows using different font size/style for messages
+		// Allows using different font size/style for messages
 		Font titleFont = new Font("", Font.BOLD, 42);
 		Font labelFont = new Font("", Font.PLAIN, 18);
 		
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		
-		/* Adding input components to the inputPanel */
+		/* ***************************************** * 
+		 * Adding input components to the inputPanel * 
+		 * ***************************************** */
 		
 		// Adds the title
 		titleLabel.setFont(titleFont);
 		addItem(inputPanel, titleLabel, 0, 0, 2, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE);
 		
 		// Adds the progammer's name
-		nameLabel.setFont(labelFont);
+		programmersName.setFont(labelFont);
 		addItem(inputPanel, programmersName, 0, 1, 2, 1, GridBagConstraints.NORTH, GridBagConstraints.NONE);
 
 		// Adds name label and input field
@@ -103,7 +115,9 @@ public class PayrollFrame extends JFrame {
 		mainPanel.add(inputPanel);
 		
 		
-		/* Adding output components to the outputPanel */
+		/* ******************************************* *
+		 * Adding output components to the outputPanel *
+		 * ******************************************* */
 		
 		// Makes the output fields uneditable
 		nameOutputField.setEditable(false);
@@ -147,7 +161,9 @@ public class PayrollFrame extends JFrame {
 		mainPanel.add(outputPanel);
 		
 		
-		/* Adding buttons to the buttonPanel */
+		/* ********************************* *
+		 * Adding buttons to the buttonPanel * 
+		 * ********************************* */
 		
 		buttonPanel.add(computePayButton);
 		computePayButton.addActionListener(buttonHandler);
@@ -165,6 +181,8 @@ public class PayrollFrame extends JFrame {
 	private void addItem(JPanel myPanel, JComponent item, int xGrid, int yGrid, int width, int height, int location, int fill) {
 		GridBagConstraints cons = new GridBagConstraints();
 		
+		// Sets the constraints for the grid
+		
 		cons.gridx = xGrid;
 		cons.gridy = yGrid;
 		cons.gridheight = height;
@@ -181,11 +199,21 @@ public class PayrollFrame extends JFrame {
 	private class buttonHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == computePayButton){
+				/* ************************************************* *
+				 * If the compute button is pressed, the information *
+				 * from the input text fields is taken, parsed to    *
+				 * the proper format(int or double) and sent to the  *
+				 * proper computation function. The computed values  *
+				 * are then returned to be displayed to the user.    * 
+				 * ************************************************* */
+				
 				// Sets the name output to the name that was input
 				String name = nameField.getText();
 				nameOutputField.setText(name);
+				nameOutputField.setHorizontalAlignment(JTextField.CENTER);
 				
-				// Reads hours from input. If empty or invalid input, hours = 0
+				// Reads hours from input. If empty or invalid input, hours = 0.
+				// Number of hours is capped at 80.
 				int hours;
 				if(hoursField.getText() == "") {
 					hours = 0;
@@ -203,7 +231,7 @@ public class PayrollFrame extends JFrame {
 					}
 				}
 				
-				// Reads payrate from input. If empty or invalid input, payrate = 0
+				// Reads payrate from input. If empty or invalid input, payrate = 0.
 				double payrate;
 				if(payrateField.getText() == "") {
 					payrate = 0.00;
@@ -218,7 +246,8 @@ public class PayrollFrame extends JFrame {
 					}
 				}
 				
-				// Reads dependents from input. If empty or invalid input, dependents = 0
+				// Reads dependents from input. If empty or invalid input, dependents = 0.
+				// Number of dependents is capped at 10.
 				int dependents;
 				if(dependentsField.getText() == "") {
 					dependents = 0;
@@ -236,7 +265,7 @@ public class PayrollFrame extends JFrame {
 					}
 				}
 				
-				// Reads the combobox answer. If answer = yes, healthPlan is true otherwise healthPlan is false
+				// Reads the combobox answer. If answer is yes, healthPlan is true otherwise healthPlan is false
 				boolean healthPlan;
 				if (healthPlanBox.getSelectedItem() == "Yes") {
 					healthPlan = true;
@@ -247,10 +276,12 @@ public class PayrollFrame extends JFrame {
 				// Sends hours and payrate to compute the gross pay for the employee
 				double grossPay = PayrollCompute.computeGrossPay(hours, payrate);
 				grossPayField.setText("$" + df.format(grossPay));
-				
+				grossPayField.setHorizontalAlignment(JTextField.CENTER);
+
 				// Sends gross pay to compute federal tax owed(if any)
 				double fedTax = PayrollCompute.computeFedTax(grossPay);
 				fedTaxField.setText("$" + df.format(fedTax));
+				fedTaxField.setHorizontalAlignment(JTextField.CENTER);
 				
 				// Sends dependents to compute health insurance if healthPlan is true, otherwise the premium is 0
 				double healthPremium;
@@ -260,17 +291,26 @@ public class PayrollFrame extends JFrame {
 					healthPremium = 0.00;
 				}
 				healthPremiumField.setText("$" + df.format(healthPremium));
+				healthPremiumField.setHorizontalAlignment(JTextField.CENTER);
 				
 				// Sends gross pay to compute social security tax owed
-				double fica = PayrollCompute.computeSSTax(grossPay);
+				double fica = PayrollCompute.computeFicaTax(grossPay);
 				ficaField.setText("$" + df.format(fica));
+				ficaField.setHorizontalAlignment(JTextField.CENTER);
 				
 				// Sends gross pay, federal tax, health premium, and social security tax to calculate employee's net pay
 				double netPay = PayrollCompute.computeNetPay(grossPay, fedTax, fica, healthPremium);
 				netPayField.setText("$" + df.format(netPay));
-				
+				netPayField.setHorizontalAlignment(JTextField.CENTER);
+
 			} else if (e.getSource() == clearButton){
-				// Sets all text fields to empty strings and the combo box to its first index, which is an empty string
+				/* ************************************************* *
+				 * If the clear button is pressed, all the input and *
+				 * output fields are set to empty strings. Also, the *
+				 * combo box for heath insurance is reset to index 0 *
+				 * which is also an empty string.                    *
+				 * ************************************************* */
+				
 				nameField.setText("");
 				hoursField.setText("");
 				payrateField.setText("");
@@ -282,7 +322,13 @@ public class PayrollFrame extends JFrame {
 				healthPremiumField.setText("");
 				ficaField.setText("");
 				netPayField.setText("");
+				
 			} else if (e.getSource() == exitButton){
+				/* ************************************************* *
+				 * If the exit button is pressed, the program will   *
+				 * terminate.                                        * 
+				 * ************************************************* */
+				
 				System.exit(0);
 			}	
 		}

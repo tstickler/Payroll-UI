@@ -1,17 +1,15 @@
 /* 
-* Programmer's name: Tyler Stickler
-* Email address:     Stickler@csu.fullerton.edu
-* Course:            CPSC223J
-* Assignment number: 2
-* Due date:          Sept 28, 2015
-* Title:             Payroll
-* Purpose:           Compute the payroll for the given indivdual
-* This file name:    PayrollDriver.java
+ * Programmer's name: Tyler Stickler
+ * Email address:     Stickler@csu.fullerton.edu
+ * Course:            CPSC223J
+ * Assignment number: 2
+ * Due date:          Sept 28, 2015
+ * Title:             Payroll
+ * Purpose:           Compute the payroll for the given indivdual
+ * This file name:    PayrollDriver.java
 */
 
 import javax.swing.*;
-
-import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 
