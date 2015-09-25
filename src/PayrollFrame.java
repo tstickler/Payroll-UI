@@ -44,7 +44,7 @@ public class PayrollFrame extends JFrame {
 	private String[] healthPlanOptions = {"", "Yes", "No"};
 	private JComboBox<String> healthPlanBox = new JComboBox<String>(healthPlanOptions);
 
-	// Declaration for labels and fields
+	// Declaration for output labels and fields
 	private JPanel outputPanel = new JPanel(new GridBagLayout());
 	private JLabel nameOutputLabel = new JLabel("Computed pay for:");
 	private JLabel grossPayLabel = new JLabel("Gross Pay:");
