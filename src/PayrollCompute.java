@@ -5,7 +5,7 @@
  * Assignment number: 2
  * Due date:          Sept 30, 2015
  * Title:             Payroll
- * Purpose:           Compute the payroll for the given indivdual
+ * Purpose:           Compute the payroll for the given individual
  * This file name:    PayrollCompute.java
 */
 

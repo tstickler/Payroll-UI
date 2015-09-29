@@ -5,7 +5,7 @@
  * Assignment number: 2
  * Due date:          Sept 30, 2015
  * Title:             Payroll
- * Purpose:           Compute the payroll for the given indivdual
+ * Purpose:           Compute the payroll for the given individual
  * This file name:    PayrollFrame.java
 */
 
@@ -331,6 +331,6 @@ public class PayrollFrame extends JFrame {
 				
 				System.exit(0);
 			}	
-		}
-	} // End buttonHandler function
+		} // End actionPerformed function
+	} // End buttonHandler class
 } // End PayrollFrame class
